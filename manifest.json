@@ -1,0 +1,33 @@
+{
+
+  "manifest_version": 2,
+  "name": "Send to Aria2",
+  "description": "Send to Aria2",
+  
+  "version": "0.1",
+  "homepage_url": "https://addons.mozilla.org/zh-CN/firefox/addon/copy-linktab-name-and-url/",
+
+  "developer": {
+    "name": "Ren Wei"
+  },
+  
+  "background": {
+    "scripts": ["background.js"]
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content-script.js"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "permissions": [
+    "*://192.168.1.4/*",
+    "contextMenus",
+    "activeTab",
+    "tabs",
+    "storage"
+  ]
+}
