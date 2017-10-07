@@ -2,7 +2,9 @@
 function S2A2_xmlhttpRequest(dlurl) {
   try {
   
-    var filename = window.top.prompt("Send To Aria2","另存为文件名");
+    var filename = window.top.prompt("Send To Aria2 另存为文件名","");
+    
+    if (filename.length==0) return;
     
     var oReq = new XMLHttpRequest();
     /*oReq.addEventListener("load", function(a1, a2, a3) {
