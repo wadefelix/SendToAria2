@@ -28,5 +28,8 @@
     "activeTab",
     "tabs",
     "storage"
-  ]
+  ],
+  "options_ui": {
+      "page": "options.html"
+  }
 }

@@ -6,6 +6,9 @@ browser.contextMenus.create({
 
 function S2A2_xmlhttpRequest(dlurl, filename) {
   try {
+    browser.storage.local.get('aria2server').then((res) => {
+      if (!res.aria2server) return
+    
     var oReq = new XMLHttpRequest();
     /*oReq.addEventListener("load", function(a1, a2, a3) {
       console.log('xhr.load: %s, %s, %s', a1, a2, a3);
@@ -17,11 +20,13 @@ function S2A2_xmlhttpRequest(dlurl, filename) {
                'params': [[dlurl],{'out':filename}]}
     jsonreqstr = JSON.stringify(jsonreq);
     // open synchronously
-    oReq.open("post","http://192.168.1.4:6800/jsonrpc",false);
+    oReq.open("post",res.aria2server,false);
 
     // send
     var res = oReq.send(jsonreqstr);
     //console.log('xhr result: %s', res);
+    
+    });
   } catch(e) {
     debugger;
     console.warn('could not send ajax request, reason %s', e.toString());
