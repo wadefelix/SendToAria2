@@ -24,7 +24,6 @@
   ],
   
   "permissions": [
-    "*://192.168.1.4/*",
     "contextMenus",
     "activeTab",
     "tabs",
