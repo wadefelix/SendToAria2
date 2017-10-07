@@ -5,7 +5,7 @@
   "description": "Send to Aria2",
   
   "version": "0.1",
-  "homepage_url": "https://addons.mozilla.org/zh-CN/firefox/addon/copy-linktab-name-and-url/",
+  "homepage_url": "https://github.com/wadefelix/SendToAria2",
 
   "developer": {
     "name": "Ren Wei"
