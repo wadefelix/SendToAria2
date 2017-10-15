@@ -4,7 +4,7 @@
   "name": "Send to Aria2 WE",
   "description": "Send to Aria2 server's json-rpc api",
   
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage_url": "https://github.com/wadefelix/SendToAria2",
 
   "developer": {

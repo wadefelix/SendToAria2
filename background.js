@@ -13,11 +13,13 @@ function S2A2_xmlhttpRequest(dlurl, filename) {
     /*oReq.addEventListener("load", function(a1, a2, a3) {
       console.log('xhr.load: %s, %s, %s', a1, a2, a3);
     });*/
+    var dlparams = {}
+    if (filename.length>0) dlparams['out'] = filename;
 
     jsonreq = {'jsonrpc':'2.0',
                'id':'qwer',
                'method':'aria2.addUri',
-               'params': [[dlurl],{'out':filename}]}
+               'params': [[dlurl],dlparams]}
     jsonreqstr = JSON.stringify(jsonreq);
     // open synchronously
     oReq.open("post",res.aria2server,false);
