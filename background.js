@@ -44,7 +44,8 @@ function S2A2_xmlhttpRequest(aria2server, aria2secret, dlurl, filename) {
     oReq.onload = function(e) {
       if (this.status == 200) {
         var resobj = JSON.parse(this.responseText);
-        S2A2_notify("SendToAria2", resobj.result);
+        S2A2_notify("SendToAria2 Successfully", 'GID: ' + resobj.result + (
+            filename ? "\n" + filename: ''));
       } else {
           S2A2_notify("SendToAria2 ERROR", this.responseText);
       }
