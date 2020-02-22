@@ -1,3 +1,4 @@
+var browser=chrome;
 browser.contextMenus.create({
     id: "send-to-aria2",
     title: "Send to Aria2 Directly",
@@ -17,9 +18,9 @@ function S2A2_notify(title, cont) {
         //"iconUrl": browser.extension.getURL("icons/cake-96.png"),
         "title": title,
         "message": cont
-    }).then(()=>{
+    },(notification_id)=>{
       S2A2_Notification_timeout_ID = setTimeout(() => {
-        browser.notifications.clear(S2A2_Notification_ID);
+        browser.notifications.clear(notification_id);
       }, 5000);
     });
 }
@@ -39,7 +40,7 @@ function S2A2_xmlhttpRequest(aria2server, aria2secret, dlurl, filename) {
     }
     jsonreqstr = JSON.stringify(jsonreq);
     // open synchronously
-    oReq.open("post",aria2server,false);
+    oReq.open("post",aria2server,true);
 
     oReq.onload = function(e) {
       if (this.status == 200) {
@@ -61,14 +62,8 @@ function S2A2_xmlhttpRequest(aria2server, aria2secret, dlurl, filename) {
 }
 
 function S2A2_mkjob(dlurl, filename) {
-    var pr = browser.storage.local.get('aria2server');
-    var pt = browser.storage.local.get('aria2secret');
-    Promise.all([pr,pt]).then((res) => {
-      S2A2_xmlhttpRequest(res[0]['aria2server'],res[1]['aria2secret'],dlurl,filename)
-    }).catch (reason=>{
-        pr.then((res) => {
-          S2A2_xmlhttpRequest(res['aria2server'],null,dlurl,filename)
-        });
+    var pr = browser.storage.local.get(['aria2server','aria2secret'], (res) => {
+      S2A2_xmlhttpRequest(res['aria2server'],res['aria2secret'],dlurl,filename)
     });
 }
 

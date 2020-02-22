@@ -11,5 +11,5 @@ function S2A2_getfilename(dlurl) {
     }
 }
 
-browser.runtime.onMessage.addListener(S2A2_getfilename);
+chrome.runtime.onMessage.addListener(S2A2_getfilename);
 

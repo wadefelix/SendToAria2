@@ -7,9 +7,7 @@
   "version": "0.3",
   "homepage_url": "https://github.com/wadefelix/SendToAria2",
 
-  "developer": {
-    "name": "Ren Wei"
-  },
+  "author": "Ren Wei",
   
   "background": {
     "scripts": ["background.js"]
