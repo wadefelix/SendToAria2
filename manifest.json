@@ -8,6 +8,14 @@
   "homepage_url": "https://github.com/wadefelix/SendToAria2",
 
   "author": "Ren Wei",
+
+  "icons": {
+    "16": "icons/s2a2_black_16.png", 
+    "24": "icons/s2a2_black_24.png",
+    "32": "icons/s2a2_black_32.png", 
+    "64": "icons/s2a2_black_64.png",
+    "128": "icons/s2a2_black_128.png" 
+  }, 
   
   "background": {
     "scripts": ["background.js"]

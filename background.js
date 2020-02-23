@@ -15,7 +15,7 @@ var S2A2_Notification_timeout_ID;
 function S2A2_notify(title, cont) {
     browser.notifications.create(S2A2_Notification_ID, {
         "type": "basic",
-        //"iconUrl": browser.extension.getURL("icons/cake-96.png"),
+        "iconUrl": browser.extension.getURL("icons/s2a2_black_128.png"),
         "title": title,
         "message": cont
     },(notification_id)=>{
