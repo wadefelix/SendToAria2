@@ -10,7 +10,10 @@
     <fieldset>
       <legend id="Options">Options</legend>
       <p id="optionslegend">aria2 server json rpc, such as http://192.168.1.4:6800/jsonrpc</p>
-      <input type="text" id="aria2server" size=64 >
+      <table>
+      <tr><td>json-rpc</td><td><input type="text" id="aria2server" size=64 ></td></tr>
+      <tr><td>rpc-secret</td><td><input type="text" id="aria2secret" size=64 ></td></tr>
+      </table>
       <button type="submit" id="btnsave">Save</button>
     </fieldset>
   </form>

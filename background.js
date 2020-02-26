@@ -4,15 +4,9 @@ browser.contextMenus.create({
     contexts: ["link"],
 });
 
-function S2A2_xmlhttpRequest(dlurl, filename) {
+function S2A2_xmlhttpRequest(aria2server, aria2secret, dlurl, filename) {
   try {
-    browser.storage.local.get('aria2server').then((res) => {
-      if (!res.aria2server) return
-    
     var oReq = new XMLHttpRequest();
-    /*oReq.addEventListener("load", function(a1, a2, a3) {
-      console.log('xhr.load: %s, %s, %s', a1, a2, a3);
-    });*/
     var dlparams = {}
     if (filename.length>0) dlparams['out'] = filename;
 
@@ -20,19 +14,32 @@ function S2A2_xmlhttpRequest(dlurl, filename) {
                'id':'qwer',
                'method':'aria2.addUri',
                'params': [[dlurl],dlparams]}
+    if (aria2secret) {
+        jsonreq.params.splice(0,0,'token:' + aria2secret)
+    }
     jsonreqstr = JSON.stringify(jsonreq);
     // open synchronously
-    oReq.open("post",res.aria2server,false);
+    oReq.open("post",aria2server,false);
 
     // send
     var res = oReq.send(jsonreqstr);
     //console.log('xhr result: %s', res);
-    
-    });
   } catch(e) {
     debugger;
     console.warn('could not send ajax request, reason %s', e.toString());
   }
+}
+
+function S2A2_mkjob(dlurl, filename) {
+    var pr = browser.storage.local.get('aria2server');
+    var pt = browser.storage.local.get('aria2secret');
+    Promise.all([pr,pt]).then((res) => {
+      S2A2_xmlhttpRequest(res[0]['aria2server'],res[1]['aria2secret'],dlurl,filename)
+    }).catch (reason=>{
+        pr.then((res) => {
+          S2A2_xmlhttpRequest(res['aria2server'],null,dlurl,filename)
+        });
+    });
 }
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
@@ -47,7 +54,7 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
 });
 
 browser.runtime.onMessage.addListener(function (info) {
-  S2A2_xmlhttpRequest(info.url, info.filename);
+  S2A2_mkjob(info.url, info.filename);
 });
 
 
