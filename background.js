@@ -1,6 +1,11 @@
 browser.contextMenus.create({
     id: "send-to-aria2",
-    title: "send to aria2 server",
+    title: "Send to Aria2 Directly",
+    contexts: ["link"],
+});
+browser.contextMenus.create({
+    id: "send-to-aria2-saveas",
+    title: "Send to Aria2 Save As ...",
     contexts: ["link"],
 });
 
@@ -8,7 +13,7 @@ function S2A2_xmlhttpRequest(aria2server, aria2secret, dlurl, filename) {
   try {
     var oReq = new XMLHttpRequest();
     var dlparams = {}
-    if (filename.length>0) dlparams['out'] = filename;
+    if (filename) dlparams['out'] = filename;
 
     jsonreq = {'jsonrpc':'2.0',
                'id':'qwer',
@@ -25,7 +30,7 @@ function S2A2_xmlhttpRequest(aria2server, aria2secret, dlurl, filename) {
     var res = oReq.send(jsonreqstr);
     //console.log('xhr result: %s', res);
   } catch(e) {
-    debugger;
+    //debugger;
     console.warn('could not send ajax request, reason %s', e.toString());
   }
 }
@@ -43,13 +48,15 @@ function S2A2_mkjob(dlurl, filename) {
 }
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
-    if (info.menuItemId === "send-to-aria2") {
+    if (info.menuItemId === "send-to-aria2-saveas") {
         // Examples: text and HTML to be copied.
-        const text = "This is text: " + info.linkUrl;
+        // const text = "This is text: " + info.linkUrl;
         // Always HTML-escape external input to avoid XSS.
         const safeUrl = escapeHTML(info.linkUrl);
         
         browser.tabs.sendMessage(tab.id, safeUrl);
+    } else if (info.menuItemId === "send-to-aria2") {
+        S2A2_mkjob(escapeHTML(info.linkUrl), null);
     }
 });
 
