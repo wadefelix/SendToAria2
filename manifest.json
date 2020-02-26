@@ -27,7 +27,8 @@
     "contextMenus",
     "activeTab",
     "tabs",
-    "storage"
+    "storage",
+    "notifications"
   ],
   "options_ui": {
       "page": "options.html"

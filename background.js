@@ -9,6 +9,21 @@ browser.contextMenus.create({
     contexts: ["link"],
 });
 
+var S2A2_Notification_ID = "S2A2-notification";
+var S2A2_Notification_timeout_ID;
+function S2A2_notify(title, cont) {
+    browser.notifications.create(S2A2_Notification_ID, {
+        "type": "basic",
+        //"iconUrl": browser.extension.getURL("icons/cake-96.png"),
+        "title": title,
+        "message": cont
+    }).then(()=>{
+      S2A2_Notification_timeout_ID = setTimeout(() => {
+        browser.notifications.clear(S2A2_Notification_ID);
+      }, 5000);
+    });
+}
+
 function S2A2_xmlhttpRequest(aria2server, aria2secret, dlurl, filename) {
   try {
     var oReq = new XMLHttpRequest();
@@ -26,12 +41,21 @@ function S2A2_xmlhttpRequest(aria2server, aria2secret, dlurl, filename) {
     // open synchronously
     oReq.open("post",aria2server,false);
 
+    oReq.onload = function(e) {
+      if (this.status == 200) {
+        var resobj = JSON.parse(this.responseText);
+        S2A2_notify("SendToAria2", resobj.result);
+      } else {
+          S2A2_notify("SendToAria2 ERROR", this.responseText);
+      }
+    };
     // send
     var res = oReq.send(jsonreqstr);
     //console.log('xhr result: %s', res);
   } catch(e) {
     //debugger;
     console.warn('could not send ajax request, reason %s', e.toString());
+    S2A2_notify("SendToAria2 ERROR", e.toString());
   }
 }
 
